@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم Asia Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login-page">
+    <div class="login-card">
+        <div class="login-logo">
+            <div class="logo-mark">A</div>
+            <div class="login-brand">
+                <span class="login-brand-name">Asia Store</span>
+                <span class="login-brand-sub">Admin Dashboard</span>
+            </div>
+        </div>
+        <h2 class="login-title">تسجيل دخول الإدارة</h2>
+        <div class="login-form">
+            <div class="input-group">
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="adminEmail" placeholder="البريد الإلكتروني">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="adminPassword" placeholder="كلمة المرور">
+            </div>
+            <button onclick="handleLogin()" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> دخول
+            </button>
+            <p id="loginError" class="login-error" style="display:none;">
+                <i class="fas fa-exclamation-circle"></i> بيانات الدخول غير صحيحة
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none;">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-mark">A</div>
+            <span>Asia Store</span>
+        </div>
+        <nav class="sidebar-nav">
+            <button class="nav-item active" id="navProducts" onclick="switchTab('products')">
+                <i class="fas fa-tshirt"></i> المنتجات
+            </button>
+            <button class="nav-item" id="navOffers" onclick="switchTab('offers')">
+                <i class="fas fa-fire"></i> العروض
+            </button>
+        </nav>
+        <button onclick="logout()" class="sidebar-logout">
+            <i class="fas fa-sign-out-alt"></i> خروج
+        </button>
+        <a href="index.html" class="sidebar-store-link">
+            <i class="fas fa-store"></i> زيارة المتجر
+        </a>
+    </aside>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <button class="mobile-nav-btn active" id="mobileNavProducts" onclick="switchTab('products'); setMobileActive(this)">
+            <i class="fas fa-tshirt"></i>
+            <span>المنتجات</span>
+        </button>
+        <button class="mobile-nav-btn" id="mobileNavOffers" onclick="switchTab('offers'); setMobileActive(this)">
+            <i class="fas fa-fire"></i>
+            <span>العروض</span>
+        </button>
+        <a href="index.html" class="mobile-nav-btn">
+            <i class="fas fa-store"></i>
+            <span>المتجر</span>
+        </a>
+        <button class="mobile-nav-btn logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>خروج</span>
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Mobile Top Bar -->
+        <div class="mobile-top-bar">
+            <div class="top-logo">
+                <div class="logo-mark">A</div>
+                <span>Asia Store</span>
+            </div>
+            <span class="top-title">Admin Dashboard</span>
+        </div>
+        <!-- PRODUCTS TAB -->
+        <div id="productsTab" class="admin-tab active">
+            <div class="tab-header">
+                <h1 class="tab-title"><i class="fas fa-tshirt"></i> إدارة المنتجات</h1>
+            </div>
+            <div class="admin-grid">
+                <!-- Add Product Form -->
+                <div class="admin-card form-card">
+                    <h3 class="card-title"><i class="fas fa-plus-circle"></i> إضافة منتج جديد</h3>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>اسم المنتج بالعربي *</label>
+                            <input type="text" id="pName" placeholder="مثال: بلوزة بناتي">
+                        </div>
+                        <div class="form-field">
+                            <label>اسم المنتج بالإنجليزي</label>
+                            <input type="text" id="pNameEn" placeholder="e.g. Girls Top">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>سعر القطاعي *</label>
+                            <input type="number" id="pPrice" placeholder="سعر الأفراد (EGP)">
+                        </div>
+                        <div class="form-field">
+                            <label>سعر الجملة</label>
+                            <input type="number" id="pWholesalePrice" placeholder="سعر التجار (EGP)">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>القسم *</label>
+                            <select id="pCategory">
+                                <option value="girls">👧 بناتي</option>
+                                <option value="boys">👦 أولادي</option>
+                                <option value="women">👩 حريمي</option>
+                                <option value="men">👨 رجالي</option>
+                                <option value="kids">🍼 أطفالي</option>
+                                <option value="islamic">🌙 إسلامي</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label>متاح لـ</label>
+                            <select id="pMode">
+                                <option value="both">الجميع (قطاعي + جملة)</option>
+                                <option value="retail">قطاعي فقط</option>
+                                <option value="wholesale">جملة فقط</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>الوصف</label>
+                        <textarea id="pDesc" placeholder="وصف المنتج (اختياري)" rows="3"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label>صورة المنتج</label>
+                        <div class="image-upload-area">
+                            <input type="text" id="pImageUrl" placeholder="ضع رابط الصورة هنا...">
+                            <button type="button" class="cloudinary-button-trigger upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> ارفع صورة
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>إيموجي بديل</label>
+                        <input type="text" id="pEmoji" placeholder="مثال: 👗">
+                    </div>
+                    <button id="submitBtn" onclick="addProduct()" class="submit-btn">
+                        <i class="fas fa-save"></i> حفظ ونشر المنتج
+                    </button>
+                </div>
+
+                <!-- Products List -->
+                <div class="admin-card list-card">
+                    <h3 class="card-title"><i class="fas fa-list"></i> المنتجات الحالية</h3>
+                    <div id="adminProductsList" class="items-list">
+                        <div class="loading-state"><div class="spinner"></div><p>جاري التحميل...</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OFFERS TAB -->
+        <div id="offersTab" class="admin-tab" style="display:none;">
+            <div class="tab-header">
+                <h1 class="tab-title"><i class="fas fa-fire"></i> إدارة العروض</h1>
+            </div>
+            <div class="admin-grid">
+                <!-- Add Offer Form -->
+                <div class="admin-card form-card">
+                    <h3 class="card-title"><i class="fas fa-plus-circle"></i> إضافة عرض جديد</h3>
+                    <div class="form-field">
+                        <label>اسم المنتج / العرض *</label>
+                        <input type="text" id="oName" placeholder="اسم العرض">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>السعر الأصلي *</label>
+                            <input type="number" id="oOriginalPrice" placeholder="قبل الخصم">
+                        </div>
+                        <div class="form-field">
+                            <label>سعر العرض *</label>
+                            <input type="number" id="oSalePrice" placeholder="بعد الخصم">
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>الوصف</label>
+                        <textarea id="oDesc" placeholder="وصف العرض" rows="2"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label>صورة العرض</label>
+                        <div class="image-upload-area">
+                            <input type="text" id="oImageUrl" placeholder="رابط الصورة...">
+                            <button type="button" class="cloudinary-button-trigger upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> ارفع صورة
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>إيموجي بديل</label>
+                        <input type="text" id="oEmoji" placeholder="🏷️">
+                    </div>
+                    <button onclick="addOffer()" class="submit-btn offers-submit">
+                        <i class="fas fa-fire"></i> نشر العرض
+                    </button>
+                </div>
+
+                <!-- Offers List -->
+                <div class="admin-card list-card">
+                    <h3 class="card-title"><i class="fas fa-list"></i> العروض الحالية</h3>
+                    <div id="adminOffersList" class="items-list">
+                        <div class="loading-state"><div class="spinner"></div><p>جاري التحميل...</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
