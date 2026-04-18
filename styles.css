@@ -631,7 +631,141 @@ body.no-scroll { overflow: hidden; }
 .footer-link.admin-link:hover { color: var(--rose); }
 .footer-copy { font-size: 11px; color: rgba(248,244,240,0.3); margin-top: 8px; }
 
-/* ============ NOTIFICATION ============ */
+/* ============ SEARCH BAR ============ */
+.search-wrapper {
+    margin-bottom: 20px;
+}
+.search-bar-container {
+    position: relative;
+    max-width: 560px;
+    margin: 0 auto;
+}
+.search-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 16px;
+    pointer-events: none;
+    transition: var(--trans);
+}
+.search-input {
+    width: 100%;
+    padding: 14px 50px 14px 50px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    color: var(--text);
+    font-family: var(--font-ar);
+    font-size: 15px;
+    font-weight: 500;
+    transition: var(--trans);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    outline: none;
+}
+.search-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 4px 24px rgba(201,169,110,0.2), 0 0 0 3px rgba(201,169,110,0.1);
+}
+.search-input::placeholder { color: var(--gray); }
+.search-clear-btn {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(201,169,110,0.15);
+    border: none;
+    border-radius: 50%;
+    width: 28px; height: 28px;
+    color: var(--gold);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    transition: var(--trans);
+}
+.search-clear-btn:hover { background: rgba(201,169,110,0.3); }
+.search-results-info {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 10px;
+    padding: 6px 16px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    display: inline-block;
+    margin-left: 50%;
+    transform: translateX(50%);
+    border: 1px solid var(--border);
+    direction: rtl;
+}
+
+/* ============ SIZE BUBBLES ============ */
+.size-selector {
+    margin: 10px 0 12px;
+}
+.size-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 7px;
+    letter-spacing: 0.05em;
+}
+.size-bubbles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.size-bubble {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--bg2);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--trans);
+    font-family: var(--font-ar);
+    flex-shrink: 0;
+}
+.size-bubble:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,169,110,0.1);
+    transform: scale(1.1);
+}
+.size-bubble.selected {
+    background: linear-gradient(135deg, var(--gold), var(--rose));
+    border-color: transparent;
+    color: var(--navy);
+    box-shadow: 0 4px 12px rgba(201,169,110,0.4);
+    transform: scale(1.08);
+}
+.size-bubble.age-bubble {
+    width: auto;
+    padding: 0 10px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+/* Sub-category tag for shoes/bags */
+.sub-category-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rose);
+    background: rgba(232,165,152,0.1);
+    border: 1px solid rgba(232,165,152,0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-bottom: 6px;
+}
+
+
 .notification {
     position: fixed; bottom: 20px; left: 20px;
     background: var(--gold); color: var(--navy);
@@ -706,3 +840,12 @@ body.no-scroll { overflow: hidden; }
     letter-spacing: 1px; /* تباعد الحروف */
     color: #ffcc00;
 }
+/* ============ NOTIFICATION ============ */
+.notification {
+    position: fixed; bottom: 20px; left: 20px;
+    background: var(--gold); color: var(--navy);
+    padding: 12px 20px; border-radius: var(--radius);
+    font-size: 13px; font-weight: 700; z-index: 3000;
+    animation: slideInUp 0.3s ease;
+}
+@keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

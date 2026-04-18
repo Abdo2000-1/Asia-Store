@@ -93,6 +93,18 @@
             </button>
         </div>
 
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+            <div class="search-bar-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن منتج...">
+                <button class="search-clear-btn" id="searchClear" style="display:none;" onclick="clearSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results-info" id="searchInfo" style="display:none;"></div>
+        </div>
+
         <div class="categories-scroll-container">
             <button class="category-btn active" data-category="all">الكل</button>
             <button class="category-btn" data-category="girls">👧 بناتي</button>
@@ -101,6 +113,9 @@
             <button class="category-btn" data-category="men">👨 رجالي</button>
             <button class="category-btn" data-category="kids">🍼 أطفالي</button>
             <button class="category-btn" data-category="islamic">🌙 إسلامي</button>
+            <button class="category-btn" data-category="accessories">💍 اكسسوارات</button>
+            <button class="category-btn" data-category="shoes">👟 أحذية</button>
+            <button class="category-btn" data-category="bags">👜 حقائب</button>
         </div>
 
         <div class="products-grid" id="productsGrid"></div>

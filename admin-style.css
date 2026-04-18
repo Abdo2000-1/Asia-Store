@@ -272,6 +272,50 @@ body {
 .btn-delete { background: rgba(231,76,60,0.12); color: var(--danger); border: 1px solid rgba(231,76,60,0.2); }
 .btn-delete:hover { background: rgba(231,76,60,0.22); }
 
+/* ============ ADMIN SIZE GRID ============ */
+.admin-size-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+.admin-size-chip {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+.admin-size-chip input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.admin-size-chip span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 36px;
+    padding: 0 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(201,169,110,0.25);
+    border-radius: 20px;
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 700;
+    transition: var(--trans);
+    font-family: 'Tajawal', sans-serif;
+}
+.admin-size-chip input:checked + span {
+    background: linear-gradient(135deg, var(--gold), var(--rose));
+    border-color: transparent;
+    color: var(--navy);
+    box-shadow: 0 4px 12px rgba(201,169,110,0.3);
+}
+.admin-size-chip:hover span {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.1);
+}
+
 /* ============ RESPONSIVE — TABLET ============ */
 @media (max-width: 900px) {
     .admin-grid { grid-template-columns: 1fr; }
