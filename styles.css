@@ -849,3 +849,92 @@ body.no-scroll { overflow: hidden; }
     animation: slideInUp 0.3s ease;
 }
 @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ============ PAGINATION ============ */
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 16px;
+    padding: 0 16px;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+    direction: rtl;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    direction: ltr;
+}
+
+.page-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    color: var(--text);
+    font-family: var(--font-ar);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-btn:hover:not(.disabled):not(.active) {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(201,169,110,0.3);
+}
+
+.page-btn.active {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+    box-shadow: 0 4px 16px rgba(201,169,110,0.4);
+    transform: translateY(-2px);
+}
+
+.page-btn.page-nav {
+    background: var(--bg2);
+    border-color: var(--border);
+    color: var(--gold);
+}
+
+.page-btn.page-nav:hover:not(.disabled) {
+    background: var(--gold);
+    color: var(--navy);
+}
+
+.page-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.page-ellipsis {
+    color: var(--text2);
+    font-size: 14px;
+    padding: 0 4px;
+    line-height: 40px;
+}
+
+@media (max-width: 480px) {
+    .page-btn { min-width: 36px; height: 36px; font-size: 13px; }
+    .pagination-buttons { gap: 4px; }
+}

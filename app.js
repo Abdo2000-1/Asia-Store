@@ -10,6 +10,10 @@ let isLoading = false;
 let currentSearch = '';
 const selectedSizes = {};
 
+/* ===== PAGINATION STATE ===== */
+const PRODUCTS_PER_PAGE = 12;
+let currentPage = 1;
+
 const productsGrid = document.getElementById('productsGrid');
 const emptyState = document.getElementById('emptyState');
 const cartIcon = document.getElementById('cartIcon');
@@ -43,6 +47,7 @@ function initSearch() {
     input.addEventListener('input', () => {
         currentSearch = input.value.trim();
         clearBtn.style.display = currentSearch ? 'flex' : 'none';
+        currentPage = 1;
         renderProducts();
     });
 }
@@ -52,6 +57,7 @@ function clearSearch() {
     if (input) input.value = '';
     if (clearBtn) clearBtn.style.display = 'none';
     currentSearch = '';
+    currentPage = 1;
     renderProducts();
 }
 
@@ -76,6 +82,7 @@ function setShopMode(mode) {
     currentMode = mode;
     document.getElementById('modeRetail').classList.toggle('active', mode === 'retail');
     document.getElementById('modeWholesale').classList.toggle('active', mode === 'wholesale');
+    currentPage = 1;
     renderProducts();
 }
 
@@ -180,6 +187,8 @@ const CATEGORY_NAMES = {
 
 function renderProducts() {
     if (!productsGrid) return;
+
+    // Filter
     let products = allProducts.filter(p => {
         if (currentCategory !== 'all' && p.category !== currentCategory) return false;
         if (p.mode && p.mode !== 'both' && p.mode !== currentMode) return false;
@@ -192,6 +201,16 @@ function renderProducts() {
         return true;
     });
 
+    // Sort: newest first (by created_at timestamp if available, otherwise by id descending)
+    products.sort((a, b) => {
+        const ta = a.created_at ? (a.created_at.seconds || new Date(a.created_at).getTime()/1000) : 0;
+        const tb = b.created_at ? (b.created_at.seconds || new Date(b.created_at).getTime()/1000) : 0;
+        if (tb !== ta) return tb - ta;
+        // Fallback: string compare ids descending
+        return String(b.id).localeCompare(String(a.id));
+    });
+
+    // Search info
     const searchInfo = document.getElementById('searchInfo');
     if (searchInfo) {
         if (currentSearch) {
@@ -205,11 +224,18 @@ function renderProducts() {
     if (products.length === 0) {
         productsGrid.innerHTML = '';
         emptyState.style.display = 'flex';
+        renderPagination(0, 0);
         return;
     }
     emptyState.style.display = 'none';
 
-    productsGrid.innerHTML = products.map(product => {
+    // Pagination
+    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+    if (currentPage > totalPages) currentPage = 1;
+    const startIdx = (currentPage - 1) * PRODUCTS_PER_PAGE;
+    const pageProducts = products.slice(startIdx, startIdx + PRODUCTS_PER_PAGE);
+
+    productsGrid.innerHTML = pageProducts.map(product => {
         const displayPrice = (currentMode === 'wholesale' && product.wholesale_price) ? product.wholesale_price : product.price;
         const priceLabel = currentMode === 'wholesale' ? 'سعر الجملة' : 'سعر القطعة';
         const modeTag = currentMode === 'wholesale'
@@ -247,6 +273,88 @@ function renderProducts() {
             </div>
         </div>`;
     }).join('');
+
+    renderPagination(totalPages, products.length);
+}
+
+/* ===== PAGINATION RENDER ===== */
+function renderPagination(totalPages, totalCount) {
+    // Remove existing pagination if any
+    const existing = document.getElementById('paginationContainer');
+    if (existing) existing.remove();
+
+    if (totalPages <= 1) return;
+
+    const container = document.createElement('div');
+    container.id = 'paginationContainer';
+    container.className = 'pagination-container';
+
+    // Build page buttons with smart windowing
+    let pagesHtml = '';
+    const maxVisible = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+    if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+    // Prev button
+    pagesHtml += `<button class="page-btn page-nav${currentPage === 1 ? ' disabled' : ''}" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+        <i class="fas fa-chevron-right"></i>
+    </button>`;
+
+    // First page + ellipsis
+    if (startPage > 1) {
+        pagesHtml += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+        if (startPage > 2) pagesHtml += `<span class="page-ellipsis">...</span>`;
+    }
+
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+        pagesHtml += `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+
+    // Last page + ellipsis
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) pagesHtml += `<span class="page-ellipsis">...</span>`;
+        pagesHtml += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+    }
+
+    // Next button
+    pagesHtml += `<button class="page-btn page-nav${currentPage === totalPages ? ' disabled' : ''}" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+        <i class="fas fa-chevron-left"></i>
+    </button>`;
+
+    const from = (currentPage - 1) * PRODUCTS_PER_PAGE + 1;
+    const to = Math.min(currentPage * PRODUCTS_PER_PAGE, totalCount);
+
+    container.innerHTML = `
+        <div class="pagination-info">عرض ${from}–${to} من ${totalCount} منتج</div>
+        <div class="pagination-buttons">${pagesHtml}</div>
+    `;
+
+    // Insert after productsGrid
+    productsGrid.insertAdjacentElement('afterend', container);
+}
+
+function goToPage(page) {
+    const totalPages = Math.ceil(
+        allProducts.filter(p => {
+            if (currentCategory !== 'all' && p.category !== currentCategory) return false;
+            if (p.mode && p.mode !== 'both' && p.mode !== currentMode) return false;
+            if (currentSearch) {
+                const q = currentSearch.toLowerCase();
+                if (!(p.name||'').toLowerCase().includes(q) &&
+                    !(p.name_en||'').toLowerCase().includes(q) &&
+                    !(p.description||'').toLowerCase().includes(q)) return false;
+            }
+            return true;
+        }).length / PRODUCTS_PER_PAGE
+    );
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderProducts();
+    // Smooth scroll to products section
+    const section = document.getElementById('ProductsSection');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 const quantities = {};
@@ -442,6 +550,7 @@ function setupEventListeners() {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentCategory = btn.dataset.category;
+            currentPage = 1;
             renderProducts();
         });
     });
