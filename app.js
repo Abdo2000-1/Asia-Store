@@ -136,8 +136,8 @@ function getSizes(product) {
   return [];
 }
 
-function renderProducts() {
-  const filtered = allProducts.filter((product) => {
+function getFilteredProducts() {
+  return allProducts.filter((product) => {
     if (currentCategory !== "all" && product.category !== currentCategory) return false;
     if (product.mode && product.mode !== "both" && product.mode !== currentMode) return false;
     if (!currentSearch) return true;
@@ -148,6 +148,10 @@ function renderProducts() {
     const tb = b.created_at ? (b.created_at.seconds || new Date(b.created_at).getTime() / 1000) : 0;
     return tb - ta || String(b.id).localeCompare(String(a.id));
   });
+}
+
+function renderProducts() {
+  const filtered = getFilteredProducts();
 
   searchInfo.hidden = !currentSearch;
   searchInfo.textContent = currentSearch ? `نتائج البحث عن "${currentSearch}": ${filtered.length} منتج` : "";
@@ -225,14 +229,35 @@ function renderPagination(totalPages, totalCount) {
   const container = document.createElement("div");
   container.id = "paginationContainer";
   container.className = "pagination-container";
-  const buttons = Array.from({ length: totalPages }, (_, i) => {
-    const page = i + 1;
-    return `<button class="page-btn ${page === currentPage ? "active" : ""}" type="button" data-page="${page}">${page}</button>`;
-  }).join("");
+  const pages = getPaginationPages(totalPages, currentPage);
+  const buttons = [
+    `<button class="page-btn page-nav" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""} aria-label="الصفحة السابقة"><i class="fa-solid fa-chevron-right"></i></button>`,
+    ...pages.map((page) => page === "..."
+      ? `<span class="page-ellipsis">...</span>`
+      : `<button class="page-btn ${page === currentPage ? "active" : ""}" type="button" data-page="${page}">${page}</button>`
+    ),
+    `<button class="page-btn page-nav" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""} aria-label="الصفحة التالية"><i class="fa-solid fa-chevron-left"></i></button>`,
+  ].join("");
   const from = (currentPage - 1) * PRODUCTS_PER_PAGE + 1;
   const to = Math.min(currentPage * PRODUCTS_PER_PAGE, totalCount);
   container.innerHTML = `<div class="pagination-info">عرض ${from}-${to} من ${totalCount} منتج</div><div class="pagination-buttons">${buttons}</div>`;
   productsGrid.insertAdjacentElement("afterend", container);
+}
+
+function getPaginationPages(totalPages, activePage) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = [1];
+  const start = Math.max(2, activePage - 1);
+  const end = Math.min(totalPages - 1, activePage + 1);
+
+  if (start > 2) pages.push("...");
+  for (let page = start; page <= end; page++) pages.push(page);
+  if (end < totalPages - 1) pages.push("...");
+  pages.push(totalPages);
+  return pages;
 }
 
 async function loadOffers() {
@@ -477,6 +502,17 @@ function setupEventListeners() {
 
     const removeButton = event.target.closest("[data-remove]");
     if (removeButton) removeFromCart(removeButton.dataset.remove);
+
+    const pageButton = event.target.closest("[data-page]");
+    if (pageButton && !pageButton.disabled) {
+      const nextPage = Number(pageButton.dataset.page);
+      const totalPages = Math.ceil(getFilteredProducts().length / PRODUCTS_PER_PAGE);
+      if (nextPage >= 1 && nextPage <= totalPages) {
+        currentPage = nextPage;
+        renderProducts();
+        document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
   });
 }
 

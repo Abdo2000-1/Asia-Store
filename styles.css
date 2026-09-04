@@ -44,9 +44,31 @@ button { border: 0; cursor: pointer; }
 [hidden] { display: none !important; }
 .container { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
 
-.announcement { background: var(--ink); color: var(--bg); font-size: 12px; }
-.announcement-inner { min-height: 34px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.announcement i { color: var(--gold); margin-left: 6px; }
+.announcement {
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 12px;
+}
+.announcement-marquee {
+  height: 34px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.announcement-marquee div {
+  width: max-content;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 44px;
+  animation: top-marquee 22s linear infinite;
+}
+.announcement-marquee span {
+  display: inline-flex;
+  align-items: center;
+  color: var(--bg);
+  font-weight: 900;
+}
 
 .site-header {
   position: sticky;
@@ -125,7 +147,7 @@ button { border: 0; cursor: pointer; }
   font: 800 10px "DM Sans", sans-serif;
 }
 
-.hero { position: relative; min-height: calc(100vh - 110px); display: grid; align-items: end; overflow: hidden; isolation: isolate; }
+.hero { position: relative; min-height: min(660px, calc(100vh - 110px)); display: grid; align-items: end; overflow: hidden; isolation: isolate; }
 .hero-media { position: absolute; inset: 0; z-index: -2; }
 .hero-media img { width: 100%; height: 100%; object-fit: cover; animation: hero-zoom 18s ease-in-out infinite alternate; }
 .hero::after {
@@ -191,7 +213,7 @@ button { border: 0; cursor: pointer; }
 .metrics strong { font: 800 30px "DM Sans", sans-serif; }
 .metrics span { color: var(--muted); font-size: 12px; font-weight: 800; }
 
-.collections, .shop, .lookbook, .contact, .channels-section { padding: 92px 0; }
+.collections, .shop, .lookbook, .contact, .channels-section { padding: 72px 0; }
 .section-heading, .shop-top { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
 .section-heading h2, .shop-top h2, .lookbook h2, .contact h2 { max-width: 680px; font-size: clamp(30px, 4.4vw, 56px); line-height: 1.14; letter-spacing: 0; }
 .collection-grid { display: grid; grid-template-columns: 1.1fr .9fr 1fr; grid-auto-rows: 230px; gap: 14px; }
@@ -414,6 +436,23 @@ button { border: 0; cursor: pointer; }
   font: 900 12px "DM Sans", sans-serif;
 }
 .page-btn:hover, .page-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+.page-btn:disabled {
+  cursor: not-allowed;
+  opacity: .38;
+}
+.page-btn:disabled:hover {
+  background: var(--bg);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.page-ellipsis {
+  min-width: 24px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-weight: 900;
+}
 
 .offers-section { padding: 92px 0; background: var(--bg); }
 .offers-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
@@ -638,6 +677,7 @@ button { border: 0; cursor: pointer; }
 
 @keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.08); } }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(50%); } }
+@keyframes top-marquee { from { transform: translateX(0); } to { transform: translateX(50%); } }
 @keyframes card-in { to { opacity: 1; transform: translateY(0); } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -651,7 +691,7 @@ button { border: 0; cursor: pointer; }
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
-  .hero { min-height: 720px; }
+  .hero { min-height: 560px; }
   .metrics-grid, .products-grid { grid-template-columns: repeat(2, 1fr); }
   .offers-grid { grid-template-columns: repeat(2, 1fr); }
   .collection-grid { grid-template-columns: 1fr 1fr; }
@@ -675,7 +715,7 @@ button { border: 0; cursor: pointer; }
   .hero h1 { font-size: clamp(38px, 13vw, 64px); }
   .metrics-grid { grid-template-columns: 1fr 1fr; }
   .metrics-grid div { min-height: 86px; }
-  .collections, .shop, .lookbook, .contact, .channels-section { padding: 68px 0; }
+  .collections, .shop, .lookbook, .contact, .channels-section { padding: 54px 0; }
   .collection-grid, .products-grid { grid-template-columns: 1fr; }
   .offers-grid { grid-template-columns: 1fr; }
   .shop-mode-toggle { width: 100%; }
