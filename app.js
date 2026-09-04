@@ -231,16 +231,16 @@ function renderPagination(totalPages, totalCount) {
   container.className = "pagination-container";
   const pages = getPaginationPages(totalPages, currentPage);
   const buttons = [
-    `<button class="page-btn page-nav" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""} aria-label="الصفحة السابقة"><i class="fa-solid fa-chevron-right"></i></button>`,
+    `<button class="page-btn page-nav" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""} aria-label="الصفحة السابقة" title="الصفحة السابقة"><i class="fa-solid fa-chevron-right"></i></button>`,
     ...pages.map((page) => page === "..."
       ? `<span class="page-ellipsis">...</span>`
       : `<button class="page-btn ${page === currentPage ? "active" : ""}" type="button" data-page="${page}">${page}</button>`
     ),
-    `<button class="page-btn page-nav" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""} aria-label="الصفحة التالية"><i class="fa-solid fa-chevron-left"></i></button>`,
+    `<button class="page-btn page-nav" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""} aria-label="الصفحة التالية" title="الصفحة التالية"><i class="fa-solid fa-chevron-left"></i></button>`,
   ].join("");
   const from = (currentPage - 1) * PRODUCTS_PER_PAGE + 1;
   const to = Math.min(currentPage * PRODUCTS_PER_PAGE, totalCount);
-  container.innerHTML = `<div class="pagination-info">عرض ${from}-${to} من ${totalCount} منتج</div><div class="pagination-buttons">${buttons}</div>`;
+  container.innerHTML = `<div class="pagination-info">عرض ${from}–${to} من ${totalCount} منتج (صفحة ${currentPage} من ${totalPages})</div><div class="pagination-buttons">${buttons}</div>`;
   productsGrid.insertAdjacentElement("afterend", container);
 }
 
@@ -265,18 +265,34 @@ async function loadOffers() {
   const grid = document.getElementById("offersGrid");
   const empty = document.getElementById("offersEmpty");
   const badge = document.getElementById("offersNavBadge");
-  if (!grid || typeof db === "undefined") return;
+  if (!grid || !section) return;
+
+  if (typeof db === "undefined") {
+    section.hidden = true;
+    return;
+  }
+
   try {
     const snap = await db.collection("offers").where("active", "==", true).get();
     allOffers = [];
     snap.forEach((doc) => allOffers.push({ id: doc.id, ...doc.data() }));
-    section.hidden = allOffers.length === 0;
-    empty.hidden = allOffers.length > 0;
-    badge.hidden = allOffers.length === 0;
-    badge.textContent = allOffers.length;
-    renderOffers();
+    if (allOffers.length > 0) {
+      section.hidden = false;
+      section.classList.add("is-visible");
+      if (empty) empty.hidden = true;
+      if (badge) {
+        badge.hidden = false;
+        badge.textContent = allOffers.length;
+      }
+      renderOffers();
+    } else {
+      section.hidden = true;
+      if (empty) empty.hidden = false;
+      if (badge) badge.hidden = true;
+    }
   } catch (error) {
     console.error("Load offers error:", error);
+    section.hidden = true;
   }
 }
 
@@ -285,24 +301,34 @@ function renderOffers() {
   if (!grid) return;
   grid.innerHTML = allOffers.map((offer, index) => {
     const qty = offerQuantities[offer.id] || 0;
-    const discount = offer.original_price ? Math.round(((offer.original_price - offer.sale_price) / offer.original_price) * 100) : 0;
+    const discount = (offer.original_price && offer.sale_price) ? Math.round(((offer.original_price - offer.sale_price) / offer.original_price) * 100) : 0;
+    const savings = (offer.original_price && offer.sale_price) ? (offer.original_price - offer.sale_price) : 0;
     const imageHtml = offer.image_url
       ? `<img src="${offer.image_url}" alt="${offer.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="product-emoji-fallback" style="display:none">${offer.image_emoji || "🏷️"}</span>`
       : `<span class="product-emoji-fallback">${offer.image_emoji || "🏷️"}</span>`;
     return `
       <article class="product-card offer-card" style="animation-delay:${index * 45}ms">
-        <div class="product-image">${imageHtml}<span class="product-tag">خصم ${discount}%</span></div>
+        <div class="product-image">
+          ${imageHtml}
+          ${discount > 0 ? `<span class="product-tag offer-tag">خصم ${discount}% 🔥</span>` : ""}
+        </div>
         <div class="product-body">
           <h3>${offer.name}</h3>
           ${offer.description ? `<p class="product-desc">${offer.description}</p>` : ""}
-          <div class="offer-prices"><del>EGP ${offer.original_price || 0}</del><strong>EGP ${offer.sale_price || 0}</strong></div>
+          <div class="offer-prices">
+            ${offer.original_price ? `<del>EGP ${offer.original_price}</del>` : ""}
+            <strong>EGP ${offer.sale_price || 0}</strong>
+            ${savings > 0 ? `<span class="offer-savings">وفّر EGP ${savings}</span>` : ""}
+          </div>
           <div class="product-bottom">
             <div class="qty-control">
-              <button class="qty-btn" type="button" data-offer-qty="${offer.id}" data-delta="-1">-</button>
+              <button class="qty-btn" type="button" data-offer-qty="${offer.id}" data-delta="-1" aria-label="تقليل الكمية">-</button>
               <span class="qty-display" id="offer-qty-${offer.id}">${qty}</span>
-              <button class="qty-btn" type="button" data-offer-qty="${offer.id}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-offer-qty="${offer.id}" data-delta="1" aria-label="زيادة الكمية">+</button>
             </div>
-            <button class="add-btn" type="button" data-offer-add="${offer.id}" aria-label="إضافة العرض"><i class="fa-solid fa-plus"></i></button>
+            <button class="offer-add-btn" type="button" data-offer-add="${offer.id}">
+              <i class="fa-solid fa-bag-shopping"></i> أضف العرض
+            </button>
           </div>
         </div>
       </article>
@@ -319,10 +345,10 @@ function changeQty(id, delta) {
 function addToCart(productId, displayPrice) {
   const product = allProducts.find((item) => item.id === productId);
   if (!product) return;
-  const qty = quantities[productId] || 0;
+  let qty = quantities[productId] || 0;
   if (qty <= 0) {
-    showNotification("من فضلك اختار الكمية أولاً");
-    return;
+    qty = 1;
+    quantities[productId] = 1;
   }
   const sizes = getSizes(product);
   const selectedSize = selectedSizes[productId] || "";
@@ -339,15 +365,16 @@ function addToCart(productId, displayPrice) {
   saveCartToLocalStorage();
   updateCartUI();
   renderProducts();
-  showNotification("تمت الإضافة للسلة");
+  showNotification("تمت الإضافة للسلة بنجاح ✓");
 }
 
 function addOfferToCart(offerId) {
   const offer = allOffers.find((item) => item.id === offerId);
-  const qty = offerQuantities[offerId] || 0;
-  if (!offer || qty <= 0) {
-    showNotification("من فضلك اختار الكمية أولاً");
-    return;
+  if (!offer) return;
+  let qty = offerQuantities[offerId] || 0;
+  if (qty <= 0) {
+    qty = 1;
+    offerQuantities[offerId] = 1;
   }
   const cartKey = `offer_${offerId}`;
   const existing = cart.find((item) => item.cartKey === cartKey);
@@ -357,7 +384,7 @@ function addOfferToCart(offerId) {
   saveCartToLocalStorage();
   updateCartUI();
   renderOffers();
-  showNotification("تمت إضافة العرض للسلة");
+  showNotification("تمت إضافة العرض للسلة بنجاح ✓");
 }
 
 function updateCartUI() {
@@ -551,10 +578,16 @@ function setupSmoothScroll() {
 }
 
 function setupRevealAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add("is-visible");
-    });
-  }, { threshold: 0.16 });
-  document.querySelectorAll(".section-observe").forEach((section) => observer.observe(section));
+  document.querySelectorAll(".section-observe").forEach((section) => {
+    section.classList.add("is-visible");
+  });
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      });
+    }, { threshold: 0.05, rootMargin: "60px" });
+    document.querySelectorAll(".section-observe").forEach((section) => observer.observe(section));
+  }
 }
+
