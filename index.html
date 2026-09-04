@@ -1,250 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asia Store </title>
-
-
-    
-    
-    <meta name="description" content="آسيا ستور - مجموعة متكاملة لكل ما يلزم المرأة والطفل من أزياء، هوم وير، وأحدث صيحات الموضة بالقطاعي.">
-    <meta name="keywords" content="ملابس نسائية، ملابس أطفال، هوم وير، أزياء، آسيا ستور، تسوق أونلاين">
-    <meta name="author" content="Abd Al-Rahman Hassan">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://asia-store.netlify.app/"> <meta property="og:title" content="Asia Store - شياكتك وشياكة طفلك تبدأ من هنا">
-    <meta property="og:description" content="تصفحي أحدث كولكشن للمرأة والطفل في آسيا ستور. جودة ممتازة وأسعار تنافسية.">
-    <meta property="og:image" content="images/logo.png"> 
-
-    <link rel="icon" type="image/png" href="images/logo.png">
-
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="styles.css">
-    <meta name="theme-color" content="#0d1b2a">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Asia Store - متجر ملابس عالمي لأزياء النساء والرجال والأطفال بإطلالات عصرية وشحن دولي.">
+  <meta property="og:title" content="Asia Store | Global Fashion House">
+  <meta property="og:description" content="اكتشف كولكشن ملابس عالمي: جاكيتات، فساتين، بدلات، أحذية وإكسسوارات.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85">
+  <title>Asia Store | Global Fashion House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<nav class="navbar">
-    <div class="nav-container container">
-        <div class="nav-brand">
-            <div class="brand-logo-mark">A</div>
-            <a href="index.html">
-                <div class="brand-text-wrapper">
-                <span class="brand-name">Asia</span>
-                <span class="brand-subtitle">Store</span>
-            </div>
-            </a>
-            
-        </div>
-        <div class="nav-controls">
-            <a href="#offersSection" class="offers-nav-btn" id="offersNavBtn">
-                <i class="fas fa-fire"></i>
-                <span>العروض</span>
-                <span class="offers-nav-badge" id="offersNavBadge" style="display:none;">0</span>
-            </a>
-            <button class="control-btn theme-toggle" id="themeToggle" title="تبديل الوضع">🌙</button>
-            <button class="control-btn cart-icon" id="cartIcon" title="سلة التسوق">
-                <i class="fas fa-shopping-bag"></i>
-                <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
-            </button>
-        </div>
+  <div class="announcement">
+    <div class="container announcement-inner">
+      <span><i class="fa-solid fa-earth-americas"></i> شحن عالمي على كولكشن الخريف الجديد</span>
+      <span>خصم 20% على أول طلب باستخدام ASIA20</span>
     </div>
-</nav>
+  </div>
 
-<section class="hero">
-    <div class="hero-bg-pattern"></div>
-    <div class="container hero-wrapper">
-        <div class="hero-content">
-            <div class="hero-tag">✦ مجموعة متكاملة ✦</div>
-            <h1 class="hero-title">
-                <span class="hero-title-main">Asia</span>
-                <span class="hero-title-sub">Store</span>
-            </h1>
-            <div class="hero-actions">
-                <a href="#ProductsSection" class="btn-primary">تسوق الآن</a>
-                <a href="#channelsSection" class="btn-ghost">قنواتنا</a>
-            </div>
-        </div>
-        <div class="hero-decoration">
-            <div class="hero-circle c1"></div>
-            <div class="hero-circle c2"></div>
-            <div class="hero-circle c3"></div>
-        </div>
-    </div>
-</section>
-
-
-<section id="ProductsSection" class="shop-section">
-    <div class="container">
-        <div class="shop-mode-toggle">
-            <button class="mode-btn active" id="modeRetail" onclick="setShopMode('retail')">
-                <i class="fas fa-user"></i>
-                <div><span class="mode-label">قطاعي</span><span class="mode-badge">للأفراد</span></div>
-            </button>
-            <button class="mode-btn" id="modeWholesale" onclick="setShopMode('wholesale')">
-                <i class="fas fa-boxes"></i>
-                <div><span class="mode-label">جملة</span><span class="mode-badge">للتجار</span></div>
-            </button>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="search-wrapper">
-            <div class="search-bar-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن منتج...">
-                <button class="search-clear-btn" id="searchClear" style="display:none;" onclick="clearSearch()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="search-results-info" id="searchInfo" style="display:none;"></div>
-        </div>
-
-        <div class="categories-scroll-container">
-            <button class="category-btn active" data-category="all">الكل</button>
-            <button class="category-btn" data-category="girls">👧 بناتي</button>
-            <button class="category-btn" data-category="boys">👦 أولادي</button>
-            <button class="category-btn" data-category="women">👩 حريمي</button>
-            <button class="category-btn" data-category="men">👨 رجالي</button>
-            <button class="category-btn" data-category="kids">🍼 أطفالي</button>
-            <button class="category-btn" data-category="islamic">🌙 إسلامي</button>
-            <button class="category-btn" data-category="accessories">💍 اكسسوارات</button>
-            <button class="category-btn" data-category="shoes">👟 أحذية</button>
-            <button class="category-btn" data-category="bags">👜 حقائب</button>
-        </div>
-
-        <div class="products-grid" id="productsGrid"></div>
-        <div class="empty-state" id="emptyState" style="display:none;">
-            <i class="fas fa-box-open"></i>
-            <p>لا توجد منتجات في هذا القسم حالياً</p>
-        </div>
-    </div>
-</section>
-
-<section id="offersSection" class="offers-section" style="display:none;">
-    <div class="container">
-        <div class="section-header">
-            <div class="offers-fire-title">
-                <i class="fas fa-fire"></i>
-                <h2 class="section-title">العروض الحصرية</h2>
-                <i class="fas fa-fire"></i>
-            </div>
-            <p class="section-sub">عروض محدودة · وفّر أكثر</p>
-        </div>
-        <div class="offers-grid" id="offersGrid">
-            <div class="offers-loading"><div class="offers-spinner"></div><p>جاري تحميل العروض...</p></div>
-        </div>
-        <div class="offers-empty" id="offersEmpty" style="display:none;"><p>لا توجد عروض متاحة حالياً</p></div>
-    </div>
-</section>
-
-<aside class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-        <h2 class="cart-title"><i class="fas fa-shopping-bag"></i> سلة التسوق</h2>
-        <button class="cart-close" id="cartClose">✕</button>
-    </div>
-    <div class="cart-items-container" id="cartItems">
-        <p class="empty-message">سلتك فارغة</p>
-    </div>
-    <div class="cart-footer">
-        <div class="cart-summary">
-            <div class="summary-row"><span>عدد المنتجات</span><span id="cartCount">0</span></div>
-            <div class="summary-row total"><span>الإجمالي</span><span id="cartTotal">EGP 0.00</span></div>
-        </div>
-        <button class="order-btn" id="orderBtn">
-            <i class="fab fa-whatsapp"></i> اطلب عبر واتساب الآن
+  <header class="site-header">
+    <nav class="container nav" aria-label="التنقل الرئيسي">
+      <a class="brand" href="#home" aria-label="Asia Store">
+        <span class="brand-mark">AS</span>
+        <span><strong>Asia Store</strong><small>Global Fashion</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#collections">الكولكشن</a>
+        <a href="#products">المنتجات</a>
+        <a href="#lookbook">لوك بوك</a>
+        <a href="#contact">تواصل</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-button" id="themeToggle" type="button" aria-label="تبديل الوضع"><i class="fa-regular fa-moon"></i></button>
+        <button class="icon-button bag-button" id="cartIcon" type="button" aria-label="فتح السلة">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span id="cartBadge" class="cart-badge" hidden>0</span>
         </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero section-observe">
+      <div class="hero-media" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=85" alt="">
+      </div>
+      <div class="container hero-content">
+        <p class="eyebrow">Asia Store Worldwide</p>
+        <h1>ملابس عالمية بطابع فاخر لكل يوم.</h1>
+        <p class="hero-lede">كولكشن مختار بعناية للنساء والرجال والأطفال: خامات مريحة، قصات عصرية، وتفاصيل تصلح من القاهرة إلى نيويورك.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#products">تسوق الآن <i class="fa-solid fa-arrow-left"></i></a>
+          <a class="button button-light" href="#lookbook">شاهد الإطلالات <i class="fa-solid fa-wand-magic-sparkles"></i></a>
+        </div>
+      </div>
+      <div class="hero-marquee" aria-hidden="true">
+        <div>
+          <span>New Arrivals</span><span>Premium Denim</span><span>Tailored Fits</span><span>Streetwear</span><span>Luxury Essentials</span>
+          <span>New Arrivals</span><span>Premium Denim</span><span>Tailored Fits</span><span>Streetwear</span><span>Luxury Essentials</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics">
+      <div class="container metrics-grid">
+        <div><strong>42+</strong><span>دولة شحن</span></div>
+        <div><strong>24h</strong><span>تأكيد الطلب</span></div>
+        <div><strong>4.9</strong><span>تقييم العملاء</span></div>
+        <div><strong>SS26</strong><span>كولكشن موسمي</span></div>
+      </div>
+    </section>
+
+    <section id="collections" class="collections section-observe">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow dark">Shop The World</p>
+          <h2>أقسام أزياء واضحة وسريعة.</h2>
+        </div>
+        <div class="collection-grid">
+          <a href="#products" class="collection-card" data-category-jump="women">
+            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=85" alt="ملابس نسائية معلقة">
+            <span>Women</span>
+          </a>
+          <a href="#products" class="collection-card tall" data-category-jump="men">
+            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=900&q=85" alt="ملابس رجالية عصرية">
+            <span>Men</span>
+          </a>
+          <a href="#products" class="collection-card" data-category-jump="kids">
+            <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=900&q=85" alt="ملابس أطفال">
+            <span>Kids</span>
+          </a>
+          <a href="#products" class="collection-card" data-category-jump="accessories">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="أحذية وإكسسوارات">
+            <span>Shoes & Accessories</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="shop section-observe">
+      <div class="container">
+        <div class="shop-top">
+          <div>
+            <p class="eyebrow dark">Featured Pieces</p>
+            <h2>المنتجات الأكثر طلبًا.</h2>
+          </div>
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" type="search" placeholder="ابحث عن جاكيت، فستان، حذاء..." aria-label="بحث المنتجات">
+          </div>
+        </div>
+        <div class="filters" id="categoryFilters" aria-label="فلترة المنتجات"></div>
+        <div class="products-grid" id="productsGrid"></div>
+        <div class="empty-state" id="emptyState" hidden>
+          <i class="fa-solid fa-shirt"></i>
+          <p>لا توجد قطع مطابقة للبحث الحالي.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="lookbook" class="lookbook section-observe">
+      <div class="container lookbook-grid">
+        <div class="lookbook-copy">
+          <p class="eyebrow">Editorial Lookbook</p>
+          <h2>إطلالات كاملة بدل قطعة واحدة.</h2>
+          <p>امزج جاكيتات السفر مع دنيم فاخر، أو اختر فستان سهرة مع إكسسوارات معدنية. الموقع كله معمول عشان يحسسك ببراند ملابس عالمي، مش مجرد كتالوج.</p>
+          <a class="button button-dark" href="#products">اختار اللوك <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="lookbook-images">
+          <img class="image-one" src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85" alt="عارضة ترتدي ملابس عصرية">
+          <img class="image-two" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85" alt="لوك أزياء عالمي">
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact section-observe">
+      <div class="container contact-inner">
+        <div>
+          <p class="eyebrow dark">Order Anywhere</p>
+          <h2>جاهز تطلب الستايل الجديد؟</h2>
+          <p>أضف القطع للسلة وسيتم تجهيز رسالة واتساب تلقائيًا بكل التفاصيل والمقاسات.</p>
+        </div>
+        <a class="button button-primary" href="https://wa.me/201115019259" target="_blank" rel="noopener">واتساب مباشر <i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <aside class="cart-panel" id="cartPanel" aria-hidden="true" aria-label="سلة التسوق">
+    <div class="cart-head">
+      <div>
+        <p class="eyebrow dark">Your Bag</p>
+        <h2>سلة التسوق</h2>
+      </div>
+      <button class="icon-button" id="cartClose" type="button" aria-label="إغلاق السلة"><i class="fa-solid fa-xmark"></i></button>
     </div>
-</aside>
-
-
-<section id="channelsSection" class="channels-section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">قنواتنا وجروباتنا</h2>
-            <p class="section-sub">انضم إلينا ليصلك كل جديد</p>
-        </div>
-        <div class="channels-grid">
-
-  
-            <a href="https://www.facebook.com/share/p/vQoMecYZUwCmXzsE/?mibextid=oFDknk" target="_blank" class="channel-card facebook">
-                <div class="channel-icon"><i class="fab fa-facebook"></i></div>
-                <div class="channel-info"><span class="channel-label">جروب فيسبوك</span><span class="channel-name">Asia Store Group</span></div>
-                <i class="fas fa-arrow-left channel-arrow"></i>
-            </a>
-             <a href="https://www.facebook.com/profile.php?id=100065300837658" target="_blank" class="channel-card facebook">
-                <div class="channel-icon"><i class="fab fa-facebook"></i></div>
-                <div class="channel-info"><span class="channel-label">صفحة الفيسبوك</span><span class="channel-name">Asia Store Page</span></div>
-                <i class="fas fa-arrow-left channel-arrow"></i>
-    
-            </a>
-
-             <a href="https://chat.whatsapp.com/LZb0zmken8G1LgCufZrZSd" target="_blank" class="channel-card wa">
-                <div class="channel-icon"><i class="fab fa-whatsapp"></i></div>
-                <div class="channel-info"><span class="channel-label"> واتساب</span><span class="channel-name">Asia Store</span></div>
-                <i class="fas fa-arrow-left channel-arrow"></i>
-            </a>
-
-            <a href="https://chat.whatsapp.com/GHUc6AxuE905qABCgyYDXW" target="_blank" class="channel-card wa">
-                <div class="channel-icon"><i class="fab fa-whatsapp"></i></div>
-                <div class="channel-info"><span class="channel-label">جروب واتساب</span><span class="channel-name">Shein</span></div>
-                <i class="fas fa-arrow-left channel-arrow"></i>
-            </a>
-            
-            <a href="https://www.instagram.com/asia.store12?igsh=Y2JqMDVheHlvOGJq" target="_blank" class="channel-card ig">
-                <div class="channel-icon"><i class="fab fa-instagram"></i></div>
-                <div class="channel-info"><span class="channel-label">انستجرام</span><span class="channel-name">asia.store12</span></div>
-                <i class="fas fa-arrow-left channel-arrow"></i>
-            </a>
-        </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="summary"><span>الإجمالي</span><strong id="cartTotal">$0</strong></div>
+      <button class="checkout" id="checkoutBtn" type="button"><i class="fa-brands fa-whatsapp"></i> إتمام الطلب عبر واتساب</button>
     </div>
-</section>
+  </aside>
+  <div class="overlay" id="overlay"></div>
 
-
-<div class="overlay" id="overlay"></div>
-
-<footer class="main-footer">
-    <div class="container footer-content">
-        <div class="footer-brand">
-            <div class="brand-logo-mark small">A</div>
-            <span class="footer-brand-name">Asia Store</span>
-        </div>
- 
-        <div class="footer-links">
-            <a href="https://wa.me/2001124949462" target="_blank" class="footer-link"><i class="fab fa-whatsapp"></i> 01124949462</a>
-            <a href="https://wa.me/2001115019259" target="_blank" class="footer-link"><i class="fab fa-whatsapp"></i> 01115019259</a>
-         
-        </div>
-
-        <p class="footer-copy">© 2026 Asia Store · جميع الحقوق محفوظة</p>
-
-        <div class="footer-links">
-            <a href="https://wa.me/2001002402986" target="_blank" class="footer-link-item">
-            </a>
-            
-            <a href="admin.html" target="_blank" class="footer-link-item admin-dash">
-                Admin Dashboard
-            </a>
-        </div>
-
-        <div class="dev-footer">
-            <p>CEO & Founder <a href="https://www.facebook.com/ahmedmostafa.ahmedmostafa.944" target="_blank"> <strong>Ahmed Mostafa</strong></a></p>
-            <p>تم التطوير بواسطة <a href="https://github.com/Abdo2000-1" target="_blank">Eng. Abdo Al Adawy</a> © 2026</p>
-        </div>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Asia Store Global Fashion</p>
+      <div>
+        <a href="https://www.instagram.com/asia.store12?igsh=Y2JqMDVheHlvOGJq" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=100065300837658" target="_blank" rel="noopener">Facebook</a>
+      </div>
     </div>
-</footer>
+  </footer>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
