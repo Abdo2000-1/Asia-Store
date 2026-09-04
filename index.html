@@ -32,6 +32,7 @@
       <div class="nav-links">
         <a href="#collections">الكولكشن</a>
         <a href="#products">المنتجات</a>
+        <a href="#offersSection">العروض <span id="offersNavBadge" class="mini-badge" hidden>0</span></a>
         <a href="#lookbook">لوك بوك</a>
         <a href="#contact">تواصل</a>
       </div>
@@ -108,18 +109,44 @@
         <div class="shop-top">
           <div>
             <p class="eyebrow dark">Featured Pieces</p>
-            <h2>المنتجات الأكثر طلبًا.</h2>
+            <h2>المنتجات المرفوعة من المتجر.</h2>
           </div>
           <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input id="searchInput" type="search" placeholder="ابحث عن جاكيت، فستان، حذاء..." aria-label="بحث المنتجات">
+            <button id="searchClear" class="clear-search" type="button" aria-label="مسح البحث" hidden><i class="fa-solid fa-xmark"></i></button>
           </div>
         </div>
+        <div class="shop-mode-toggle">
+          <button class="mode-btn active" id="modeRetail" type="button" onclick="setShopMode('retail')">
+            <i class="fa-solid fa-user"></i><span>قطاعي</span><small>للأفراد</small>
+          </button>
+          <button class="mode-btn" id="modeWholesale" type="button" onclick="setShopMode('wholesale')">
+            <i class="fa-solid fa-boxes-stacked"></i><span>جملة</span><small>للتجار</small>
+          </button>
+        </div>
+        <div class="search-results-info" id="searchInfo" hidden></div>
         <div class="filters" id="categoryFilters" aria-label="فلترة المنتجات"></div>
         <div class="products-grid" id="productsGrid"></div>
         <div class="empty-state" id="emptyState" hidden>
           <i class="fa-solid fa-shirt"></i>
           <p>لا توجد قطع مطابقة للبحث الحالي.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="offersSection" class="offers-section section-observe" hidden>
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow dark">Limited Deals</p>
+            <h2>العروض القديمة من نفس الداتابيز.</h2>
+          </div>
+        </div>
+        <div class="offers-grid" id="offersGrid"></div>
+        <div class="empty-state" id="offersEmpty" hidden>
+          <i class="fa-solid fa-tags"></i>
+          <p>لا توجد عروض متاحة حاليًا.</p>
         </div>
       </div>
     </section>
@@ -161,7 +188,8 @@
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
-      <div class="summary"><span>الإجمالي</span><strong id="cartTotal">$0</strong></div>
+      <div class="summary"><span>عدد المنتجات</span><strong id="cartCount">0</strong></div>
+      <div class="summary"><span>الإجمالي</span><strong id="cartTotal">EGP 0.00</strong></div>
       <button class="checkout" id="checkoutBtn" type="button"><i class="fa-brands fa-whatsapp"></i> إتمام الطلب عبر واتساب</button>
     </div>
   </aside>
@@ -177,6 +205,9 @@
     </div>
   </footer>
 
-  <script type="module" src="app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
