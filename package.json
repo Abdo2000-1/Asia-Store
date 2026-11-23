@@ -1,0 +1,15 @@
+{
+  "name": "asia-store",
+  "version": "1.0.0",
+  "description": "Asia Store - متجر ملابس عالمي لأزياء النساء والرجال والأطفال",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests configured\" && exit 0"
+  },
+  "keywords": ["ecommerce", "fashion", "store"],
+  "author": "Asia Store",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
